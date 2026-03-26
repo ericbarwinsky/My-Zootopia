@@ -8,20 +8,27 @@ def load_data(file_path):
 
 
 def print_data_fox_in_json(animals_data):
+    """
+        Parses a list of animal data dictionaries and formats it into a readable string.
+        Input: json (list[dict])
+        Returns:
+        str: A formatted string containing the name, diet, first location, and type
+            of each animal found in the input data.
+    """
+    output_data = ""
     for data in animals_data:
-        try:
-            print(f"Name: {data["name"]}")
-            print(f"Diet: {data["characteristics"]["diet"]}")
-            print(f"Location: {data["locations"][0]}")
-            print(f"Type: {data["characteristics"]["type"]}")
-            print("")
-        except KeyError:
-            print("")
-            pass
-
-
-
+        output_data += f'Name: {data.get("name", "Unknown")}\n'
+        chars = data.get("characteristics", {})
+        if "diet" in chars:
+            output_data += f'Diet: {chars["diet"]}\n'
+        locs = data.get("locations", [])
+        if locs:
+            output_data += f'Location: {locs[0]}\n'
+        if "type" in chars:
+            output_data += f'Type: {chars["type"]}\n'
+        output_data += "\n"
+    return output_data
 
 
 animals_data = load_data('animals_data.json')
-print_data_fox_in_json(animals_data)
+print(print_data_fox_in_json(animals_data))
