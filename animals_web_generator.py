@@ -1,10 +1,10 @@
 import json
 
 
-def load_data(file_path):
+def json_load_data(file_path):
     """ Loads a JSON file """
     with open(file_path, "r") as handle:
-      return json.load(handle)
+        return json.load(handle)
 
 
 def print_data_fox_in_json(animals_data):
@@ -30,5 +30,27 @@ def print_data_fox_in_json(animals_data):
     return output_data
 
 
-animals_data = load_data('animals_data.json')
-print(print_data_fox_in_json(animals_data))
+def website_load_data(file_path):
+    """ Loads the HTML Text """
+    with open(file_path, "r", encoding="utf-8") as handle:
+        html_data = handle.read()
+        return html_data
+
+
+def replace_marker_with_data(website_text_data, formatted_animal_text):
+    """ Substitutes the specified placeholder with its formatted string equivalent. """
+    new_website_text = website_text_data.replace("__REPLACE_ANIMALS_INFO__", formatted_animal_text)
+    return new_website_text
+
+
+def created_new_html_data(new_website_text_data):
+    """ Writes a new HTML file and fills it with content"""
+    with open("animals.html", "w") as handle:
+        handle.write(new_website_text_data)
+
+
+animals_data = json_load_data('animals_data.json')
+formatted_animal_text = print_data_fox_in_json(animals_data)
+website_text_data = website_load_data('animals_template.html')
+new_website_text_data = replace_marker_with_data(website_text_data, formatted_animal_text)
+created_new_html_data(new_website_text_data)
