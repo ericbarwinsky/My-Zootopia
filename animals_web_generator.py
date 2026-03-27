@@ -7,7 +7,7 @@ def json_load_data(file_path):
         return json.load(handle)
 
 
-def print_data_fox_in_json(animals_data):
+def create_animal_data_text(animals_data):
     """
         Parses a list of animal data dictionaries and formats it into a readable string.
         Input: json (list[dict])
@@ -17,16 +17,17 @@ def print_data_fox_in_json(animals_data):
     """
     output_data = ""
     for data in animals_data:
-        output_data += f'Name: {data.get("name", "Unknown")}\n'
+        output_data += '<li class="cards__item">'
+        output_data += f'Name: {data.get("name", "Unknown")}<br/>\n'
         chars = data.get("characteristics", {})
         if "diet" in chars:
-            output_data += f'Diet: {chars["diet"]}\n'
+            output_data += f'Diet: {chars["diet"]}<br/>\n'
         locs = data.get("locations", [])
         if locs:
-            output_data += f'Location: {locs[0]}\n'
+            output_data += f'Location: {locs[0]}<br/>\n'
         if "type" in chars:
-            output_data += f'Type: {chars["type"]}\n'
-        output_data += "\n"
+            output_data += f'Type: {chars["type"]}<br/>\n'
+        output_data += "</li>"
     return output_data
 
 
@@ -50,7 +51,7 @@ def created_new_html_data(new_website_text_data):
 
 
 animals_data = json_load_data('animals_data.json')
-formatted_animal_text = print_data_fox_in_json(animals_data)
+formatted_animal_text = create_animal_data_text(animals_data)
 website_text_data = website_load_data('animals_template.html')
 new_website_text_data = replace_marker_with_data(website_text_data, formatted_animal_text)
 created_new_html_data(new_website_text_data)
